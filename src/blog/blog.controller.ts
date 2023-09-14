@@ -1,16 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param } from "@nestjs/common";
 import { BlogService } from './blog.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @Controller('blog')
+@ApiTags('Blogs')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
-  @Post()
-  create(@Body() createBlogDto: CreateBlogDto) {
-    return this.blogService.create(createBlogDto);
-  }
 
   @Get()
   findAll() {
@@ -18,17 +14,10 @@ export class BlogController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Получение одного блога' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Блог получен' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
   findOne(@Param('id') id: string) {
     return this.blogService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-    return this.blogService.update(+id, updateBlogDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.blogService.remove(+id);
   }
 }

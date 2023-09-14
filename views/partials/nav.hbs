@@ -1,0 +1,46 @@
+<style>
+  .site-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  a {
+    padding: 20px;
+    text-decoration: none;
+    color: black;
+  }
+
+  a:hover {
+    font-weight: bold;
+  }
+</style>
+
+<header class="site-header">
+  <nav class="menu">
+    <a href="/index"> Вводная страница </a>
+    <a href="/blog"> Блоги </a>
+  </nav>
+  <nav class="menu" id="auth">
+  </nav>
+</header>
+
+<script>
+  let user = sessionStorage.getItem('supertokens-oauth-state-2');
+
+
+  let authSegment = document.querySelector('#auth');
+  if (!user) {
+    authSegment.innerHTML += `
+        <button type="button" onclick="googleSignInClicked()">Зайти через Google</button>
+    `
+  } else {
+    authSegment.innerHTML += `
+      <a href="postCreator"> Создать Публикацию </a>
+      <a href="profile"> Мой профиль </a>
+      <button type="button" onclick="logout()"> Выйти </button>
+    `
+  }
+</script>

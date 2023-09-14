@@ -1,0 +1,34 @@
+<script>
+  async function handleGoogleCallback() {
+    try {
+      const response = await supertokensThirdParty.signInAndUp();
+
+      if (response.status === "OK") {
+        console.log(response.user)
+        if (response.createdNewUser) {
+          // sign up successful
+        } else {
+          // sign in successful
+        }
+        window.location.assign("/");
+      } else {
+        window.alert("No email provided by social login. Please use another form of login");
+      }
+      window.location.assign("/");
+    } catch (err) {
+      if (err.isSuperTokensGeneralError === true) {
+        window.alert(err.message);
+        window.location.assign("/");
+      } else {
+        window.alert("Oops! Something went wrong.");
+        window.location.assign("/");
+      }
+    }
+  }
+</script>
+<main>
+
+</main>
+<script>
+  handleGoogleCallback()
+</script>
