@@ -71,3 +71,11 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Модель базы данных
+![ERD](rdFiles/navgablog.png)
+* **User** - Пользователь приложения
+* **Blog** - Блог, принадлежащий пользователю
+* **Post** - Пост, который может делать пользователь для своего блога
+* **Comment** - Комментарий, который можно оставить под определенным постом
+* **Category** - Категория, к которой может принадлежать пост
