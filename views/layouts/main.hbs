@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Navga Blogs</title>
-  <link href="css/main.css" rel="stylesheet">
-  <script src="scripts/timeload.js"></script>
+  <link href="/css/main.css" rel="stylesheet">
+  <script src="/scripts/timeload.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/supertokens/supertokens-web-js/bundle/website.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/supertokens/supertokens-web-js/bundle/supertokens.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/supertokens/supertokens-web-js/bundle/session.js"></script>
@@ -13,6 +13,7 @@
     supertokens.init({
       appInfo: {
         apiDomain: "https://navgablog.onrender.com/",
+        // apiDomain: "http://localhost:3000/",
         apiBasePath: "/auth",
         appName: "navgablog",
       },
@@ -22,7 +23,7 @@
       ],
     });
   </script>
-  <script src="scripts/auth.js"></script>
+  <script src="/scripts/auth.js"></script>
 
 </head>
 <body>

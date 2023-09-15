@@ -4,9 +4,25 @@
       const response = await supertokensThirdParty.signInAndUp();
 
       if (response.status === "OK") {
-        console.log(response.user)
+        console.log(response.user);
         if (response.createdNewUser) {
-          // sign up successful
+          const addNewUser = async () => {
+            try {
+              await fetch(`/user`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  id: response.user.id
+                })
+              });
+            } catch (e) {
+              console.error(e);
+            }
+            // sign up successful
+          };
+          addNewUser();
         } else {
           // sign in successful
         }
@@ -30,5 +46,5 @@
 
 </main>
 <script>
-  handleGoogleCallback()
+  handleGoogleCallback();
 </script>

@@ -35,7 +35,10 @@ export class Post {
   @Column()
   content: string;
 
-  @ManyToOne(type => Blog, blog => blog.posts)
+  @ManyToOne(type => Blog, blog => blog.posts,
+    {
+      onDelete: 'CASCADE'
+    })
   blog: Blog;
 
   @OneToMany(type => Comment, comment => comment.post)

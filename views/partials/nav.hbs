@@ -21,7 +21,7 @@
 <header class="site-header">
   <nav class="menu">
     <a href="/index"> Вводная страница </a>
-    <a href="/blog"> Блоги </a>
+    <a href="/blogs"> Блоги </a>
   </nav>
   <nav class="menu" id="auth">
   </nav>
@@ -38,8 +38,8 @@
     `
   } else {
     authSegment.innerHTML += `
-      <a href="postCreator"> Создать Публикацию </a>
-      <a href="profile"> Мой профиль </a>
+      <a href="/postCreator"> Создать Публикацию </a>
+      <a href="/profile"> Мой профиль </a>
       <button type="button" onclick="logout()"> Выйти </button>
     `
   }

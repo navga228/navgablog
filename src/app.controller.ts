@@ -22,7 +22,7 @@ export class AppController {
     return { layout: 'main' };
   }
 
-  @Get('blog')
+  @Get('blogs')
   @Render('blog')
   getBlogs(@Res() res: Response) {
     return { layout: 'main' };
@@ -35,8 +35,8 @@ export class AppController {
   }
 
   @UseGuards(new AuthGuard())
-  @Get('myProfile')
-  @Render('myProfile')
+  @Get('profile')
+  @Render('profile')
   getProfile(@Res() res: Response, @Session() session : SessionContainer) {
     return { layout: 'main' };
   }

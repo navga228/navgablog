@@ -1,4 +1,4 @@
-let response = fetch("/post", {
+let response = (id) =>  fetch("/post/" + id, {
   method: "GET",
   headers: {
     Accept: "application/json, text/plain, */*",
@@ -48,7 +48,7 @@ async function handleCreateComment(e, form, postId) {
 }
 
 
-window.onload = async () => {
+async function getPosts(id)  {
   let user = await doesSessionExist();
   let userId;
 
@@ -56,7 +56,7 @@ window.onload = async () => {
     userId = await supertokensSession.getUserId();
   }
 
-  const postList = await response;
+  const postList = await response(id);
   for (const post in postList) {
     if (post !== "time") {
       const post_section = document.createElement("div");
@@ -123,18 +123,20 @@ window.onload = async () => {
         }
       }
 
-      const add_comment_form = document.createElement("div");
-      add_comment_form.className = "add-comment-form";
-      const comment_form = document.createElement('form');
-      comment_form.id = ('post_form');
-      comment_form.setAttribute('onsubmit', `handleCreateComment(event, this, ${postList[post].id})`)
-      comment_form.innerHTML += `
+      if (user && userId) {
+        const add_comment_form = document.createElement("div");
+        add_comment_form.className = "add-comment-form";
+        const comment_form = document.createElement('form');
+        comment_form.id = ('post_form');
+        comment_form.setAttribute('onsubmit', `handleCreateComment(event, this, ${postList[post].id})`)
+        comment_form.innerHTML += `
                   <input type="text" autocomplete="off" placeholder="Оставить комментарий..." name="text"/>
                   <button type="submit">Отправить</button>
       `
 
-      add_comment_form.appendChild(comment_form);
-      post_section.appendChild(add_comment_form);
+        add_comment_form.appendChild(comment_form);
+        post_section.appendChild(add_comment_form);
+      }
 
       document.querySelector("#post_container").appendChild(post_section);
     }

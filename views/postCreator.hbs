@@ -1,0 +1,38 @@
+<br>
+<br>
+<br>
+<br>
+
+<script src="scripts/post/create.js"></script>
+
+<style>
+  .post_creator {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  .post_creator > form {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
+<section class="post_creator">
+  <h1>Создание публикации</h1>
+  <form onsubmit="handlePostSubmit(event, this)">
+    <p>Название: </p>
+    <input autocomplete="off" name="title" placeholder="Название...">
+    <p>Описание: </p>
+    <input autocomplete="off" name="content" placeholder="Описание...">
+    <!--    get categories-->
+    <p>Категории: </p>
+    <select multiple id="select_categories">
+    </select>
+    <button type="submit">Создать</button>
+  </form>
+</section>
+
+<script src="scripts/category/getAll.js"></script>
+<script src="scripts/post/create.js"></script>

@@ -39,5 +39,5 @@ async function handlePostSubmit(e, form) {
       alert(error);
     });
 
-  window.location.replace("forum");
+  window.location.replace('blogs');
 }

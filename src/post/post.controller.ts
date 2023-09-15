@@ -39,18 +39,9 @@ export class PostController {
   @ApiOperation({ summary: 'Получение всех публикаций' })
   @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
-  @Get()
+  @Get(':id')
   findAll(@Param('id', new ParseIntPipe()) id: number) {
     return this.postService.findAll(id);
-  }
-
-  @ApiOperation({ summary: 'Получение определенной публикации по идентификатору' })
-  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор публикации'})
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
-  @Get(':id')
-  findOne(@Param('id', new ParseIntPipe()) id: number) {
-    return this.postService.findOne(+id);
   }
 
   @ApiOperation({summary: 'Обновление публикации '})

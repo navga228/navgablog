@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { Category } from "../category/entities/category.entity";
 import { PostDto } from "./dto/post.dto";
 import { User } from "../user/entities/user.entity";
+import { Blog } from "../blog/entities/blog.entity";
 
 @Injectable()
 export class PostService {
@@ -18,31 +19,45 @@ export class PostService {
   @InjectRepository(User)
   private readonly userRepository: Repository<User>;
 
+  @InjectRepository(Blog)
+  private readonly blogRepository: Repository<Blog>;
+
   async create(dto: PostDto, userId: string) {
 
-    let foundUser = await this.userRepository.findOneBy({id : userId});
+    let foundUser = await this.userRepository.findOneBy({ id: userId });
     if (!foundUser) {
-      throw new HttpException('Юзер не найден!', HttpStatus.NOT_FOUND)
+      throw new HttpException("Юзер не найден!", HttpStatus.NOT_FOUND);
+    }
+
+    let foundBlog = await this.blogRepository.findOneBy({user : foundUser});
+    if (!foundBlog) {
+      throw new HttpException("Блога нету!", HttpStatus.NOT_FOUND);
     }
 
     let post: Post;
     let categories = [];
     for (let i = 0; i < dto.categories.length; i++) {
       // @ts-ignore
-      let foundCategory = await this.categoryRepository.findOneBy({ name: dto.categories[i].name })
+      let foundCategory = await this.categoryRepository.findOneBy({ name: dto.categories[i].name });
       // @ts-ignore
       if (foundCategory) {
         categories.push(foundCategory);
       }
     }
-    post = new Post(dto.content, dto.title, userId, categories, foundUser.blog)
+    post = new Post(dto.content, dto.title, userId, categories, foundBlog);
     return await this.postRepository.save(post);
   }
 
   async findAll(id: number) {
+    let foundBlog = await this.blogRepository.findOneBy({ id: id });
+
+    if (!foundBlog) {
+      throw new HttpException('Такого блога нету', HttpStatus.NOT_FOUND);
+    }
+
     let posts = await this.postRepository.find({
-      where : {
-        id: id
+      where: {
+        blog: foundBlog
       },
       select: {
         id: true,
@@ -53,58 +68,59 @@ export class PostService {
         comments: {
           userId: true,
           id: true,
-          text: true,
+          text: true
         }
       },
       relations:
-        ['comments', 'categories'],
+        ["comments", "categories"],
       order: {
-        createdAt: 'DESC',
-        comments : {
-          createdAt : 'ASC',
+        createdAt: "DESC",
+        comments: {
+          createdAt: "ASC"
         }
       }
     });
 
     return posts;
   }
+
   async findOne(id: number) {
     let post = await this.postRepository.findOne({
-      where : {
-        id : id,
+      where: {
+        id: id
       },
       relations: {
-        categories: true,
+        categories: true
       }
-    })
+    });
 
     if (!post)
-      throw new NotFoundException()
+      throw new NotFoundException();
     return post;
   }
 
   async remove(id: number, userId: string) {
-    const found = await this.postRepository.findOneBy({id : id})
+    const found = await this.postRepository.findOneBy({ id: id });
     if (found.userId !== userId) {
-      throw new Error('Идентификаторы пользоваталей не совпадают. ' +
-        'У вас нету прав сделать это!')
+      throw new Error("Идентификаторы пользоваталей не совпадают. " +
+        "У вас нету прав сделать это!");
     }
 
     await this.postRepository.delete(id);
   }
 
-  async update(postId: number, dto: PostDto,  userId: string) {
+  async update(postId: number, dto: PostDto, userId: string) {
     let foundPost = await this.postRepository.findOne({
       where: { id: postId }
     });
 
     if (!foundPost) {
-      throw new NotFoundException()
+      throw new NotFoundException();
     }
 
     if (foundPost.userId !== userId) {
-      throw new Error('Идентификаторы пользоваталей не совпадают. ' +
-        'У вас нету прав сделать это!')
+      throw new Error("Идентификаторы пользоваталей не совпадают. " +
+        "У вас нету прав сделать это!");
     }
 
 
@@ -112,16 +128,16 @@ export class PostService {
 
     for (let i = 0; i < dto.categories.length; i++) {
       // @ts-ignore
-      let foundCategory = await this.categoryRepository.findOneBy({ name: dto.categories[i].name })
+      let foundCategory = await this.categoryRepository.findOneBy({ name: dto.categories[i].name });
       // @ts-ignore
       if (foundCategory) {
         categories.push(foundCategory);
       }
     }
 
-    foundPost.categories = categories
-    foundPost.content = dto.content
-    foundPost.title = dto.title
+    foundPost.categories = categories;
+    foundPost.content = dto.content;
+    foundPost.title = dto.title;
 
     return this.postRepository.save({ ...foundPost });
   }
