@@ -24,10 +24,10 @@ import { SessionContainer } from "supertokens-node/recipe/session";
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @ApiOperation({ summary: 'Создание публикации' })
-  @ApiBody({ type: PostDto, description: 'Тело создающейся публикации' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+  @ApiOperation({ summary: 'Создание поста' })
+  @ApiBody({ type: PostDto, description: 'Тело поста' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
   @Post()
   @UseGuards(new AuthGuard())
   @ApiSecurity('basic')
@@ -36,18 +36,20 @@ export class PostController {
     return this.postService.create(PostDto, userId);
   }
 
-  @ApiOperation({ summary: 'Получение всех публикаций' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+  @ApiOperation({ summary: 'Получение всех постов' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
+  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор блога'})
   @Get(':id')
   findAll(@Param('id', new ParseIntPipe()) id: number) {
     return this.postService.findAll(id);
   }
 
-  @ApiOperation({summary: 'Обновление публикации '})
-  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор публикации'})
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+  @ApiOperation({summary: 'Обновление поста '})
+  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор поста'})
+  @ApiBody({ type: PostDto, description: 'Тело поста' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
   @Put(':id')
   @UseGuards(new AuthGuard())
   @ApiSecurity('basic')
@@ -57,10 +59,10 @@ export class PostController {
     return this.postService.update(id, dto, userId);
   }
 
-  @ApiOperation({summary: 'Удаление публикации'})
-  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор публикации'})
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+  @ApiOperation({summary: 'Удаление поста'})
+  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор поста'})
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
   @Delete(':id')
   @UseGuards(new AuthGuard())
   @ApiSecurity('basic')

@@ -8,8 +8,8 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({ summary: 'Получение всех категорий' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успез' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
   @Get()
   findAll() {
     return this.categoryService.findAll();

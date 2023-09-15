@@ -14,19 +14,18 @@ export class CommentController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Получение комментариев определенной публикации'})
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
-  @ApiParam({name: 'postId', type: 'number', description: 'Идентификатор публикации'})
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
+  @ApiParam({name: 'postId', type: 'number', description: 'Идентификатор поста'})
   findByPost(@Param('postId', new ParseIntPipe())  postId: number) {
     return this.commentService.findAllByPost(+postId);
   }
 
   @Post(':postId')
-  @ApiOperation({ summary: 'Создание комментария'})
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Post wasn\'t found' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
-  @ApiParam({name: 'postId', type: 'number', description: 'Идентификатор связанной публикации'})
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Не найден' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
+  @ApiParam({name: 'postId', type: 'number', description: 'Идентификатор связанного поста'})
   @ApiBody({type: CommentDto, description: 'Тело создаваемого комментария'})
   @UseGuards(new AuthGuard())
   @ApiSecurity('basic')
@@ -35,12 +34,13 @@ export class CommentController {
     return this.commentService.create(postId, dto, userId);
   }
   @ApiOperation({ summary: 'Удаление комментария' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'The comment has been updated' })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор комментария'})
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
   @UseGuards(new AuthGuard())
   @ApiSecurity('basic')
   @Delete(':id')
-  remove(@Param('id', new ParseIntPipe()) id: string, @Session() session: SessionContainer) {
+  remove(@Param('id', new ParseIntPipe()) id: number, @Session() session: SessionContainer) {
     let userId = session.getUserId();
     return this.commentService.remove(+id, userId);
   }
