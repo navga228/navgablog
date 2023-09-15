@@ -3,15 +3,15 @@ import Session from 'supertokens-node/recipe/session';
 
 export const appInfo = {
   appName: 'navgaBlog',
-  apiDomain: 'http://127.0.0.1:3000/',
-  websiteDomain: 'http://127.0.0.1:3000/',
+  apiDomain: 'https://navgablog.onrender.com/',
+  websiteDomain: 'https://navgablog.onrender.com/',
   apiBasePath: '/auth',
   websiteBasePath: '/auth',
 };
 
 export const connectionUri =
-  'https://st-dev-ca2ca420-5301-11ee-a7f0-096a527e3d58.aws.supertokens.io';
-export const apiKey = 'i4MKWSw=zm-h0wtZnFj7sgyXz7';
+  'https://st-prod-d0ac2780-5301-11ee-a7f0-096a527e3d58.aws.supertokens.io';
+export const apiKey = 'v78SnAV=eN6O9Y5f7eMHwV8yHc';
 
 export const recipeList = [
   ThirdParty.init({

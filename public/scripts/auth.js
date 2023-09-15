@@ -2,7 +2,7 @@ async function googleSignInClicked() {
   try {
     const authUrl = await supertokensThirdParty.getAuthorisationURLWithQueryParamsAndSetState({
       thirdPartyId: "google",
-      frontendRedirectURI: "http://127.0.0.1:3000/auth/callback/google",
+      frontendRedirectURI: "https://navgablog.onrender.com/auth/callback/google",
     });
     window.location.assign(authUrl);
   } catch (err) {
