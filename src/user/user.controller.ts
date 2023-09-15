@@ -16,11 +16,9 @@ export class UserController {
   @ApiOperation({ summary: 'Создание пользователя' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Пользователь создан' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
+  @UseGuards(new AuthGuard())
   create(@Body() createUserDto: UserDto, @Session() session : SessionContainer) {
-    if (session) {
-      throw new HttpException('Такой пользователь уже зарегистрироваен', HttpStatus.BAD_REQUEST );
-    }
-    return this.userService.create(createUserDto);
+    return this.userService.create(createUserDto, session.getUserId());
   }
 
   @Delete(':id')

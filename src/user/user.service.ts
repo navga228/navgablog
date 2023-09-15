@@ -15,7 +15,11 @@ export class UserService {
   @InjectRepository(User)
   private readonly userRepository: Repository<User>;
 
-  async create(createUserDto: UserDto) {
+  async create(createUserDto: UserDto, userId: string) {
+
+    if (userId !== createUserDto.id) {
+      throw new HttpException('задан невверный параметр пользователя!', HttpStatus.BAD_REQUEST );
+    }
     let found = await this.userRepository.findOneBy({ id: createUserDto.id })
     if (found)
       throw new HttpException('Такой id пользователя существует!', HttpStatus.CONFLICT);
