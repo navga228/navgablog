@@ -9,7 +9,7 @@ let categoriesResponse = fetch("/category", {
   .then((data) => data.json());
 
 async function handlePostUpdate(id) {
-  let response = await fetch(`/post/${id}`, {
+  let response = await fetch(`/post/one/${id}`, {
     method: "GET",
     headers: {
       Accept: "application/json, text/plain, */*",

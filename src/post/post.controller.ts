@@ -45,6 +45,15 @@ export class PostController {
     return this.postService.findAll(id);
   }
 
+  @ApiOperation({ summary: 'Получение одного поста' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Плохой запрос' })
+  @ApiParam({name: 'id', type: 'number', description: 'Идентификатор поста'})
+  @Get('/one/:id')
+  findOne(@Param('id', new ParseIntPipe()) id: number) {
+    return this.postService.findOne(id);
+  }
+
   @ApiOperation({summary: 'Обновление поста '})
   @ApiParam({name: 'id', type: 'number', description: 'Идентификатор поста'})
   @ApiBody({ type: PostDto, description: 'Тело поста' })
