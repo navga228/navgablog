@@ -11,6 +11,8 @@ export class BlogController {
 
 
   @Get()
+  @ApiResponse({ status: HttpStatus.OK, description: 'Успех' })
+  @ApiOperation({ summary: 'Получение всех блогов' })
   findAll() {
     return this.blogService.findAll();
   }
