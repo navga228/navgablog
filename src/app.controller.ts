@@ -11,14 +11,8 @@ export class AppController {
   constructor(private appService: AppService) {}
 
   @Get('')
-  @Render('index')
+  @Render('blog')
   getIndex(@Res() res: Response) {
-    return { layout: 'main' };
-  }
-
-  @Get('index')
-  @Render('index')
-  getMain(@Res() res: Response) {
     return { layout: 'main' };
   }
 
